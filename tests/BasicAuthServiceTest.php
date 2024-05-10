@@ -17,4 +17,15 @@ class BasicAuthServiceTest extends BaseTest
         $this->assertEquals($username, $this->basicAuthService->getUsername());
         $this->assertEquals($password, $this->basicAuthService->getPassword());
     }
+
+    #[test]
+    public function test_cant_authenticate_user()
+    {
+        $username = 'admin1';
+        $password = 'password';
+
+        $this->basicAuthService->authenticate($username, $password);
+
+        $this->assertFalse($this->basicAuthService->isAuthenticated());
+    }
 }

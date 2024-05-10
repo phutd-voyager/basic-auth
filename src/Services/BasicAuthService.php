@@ -39,14 +39,19 @@ class BasicAuthService implements Contracts\BasicAuthServiceInterface
     public function authenticate(string $username, string $password): void
     {
         if ($this->getStatusEnabled() && $username === $this->getUsername() && $password === $this->getPassword()) {
-            $this->isAuthenticated = true;
+            $this->setIsAuthenticated(true);
         }
 
-        $this->isAuthenticated = true;
+        $this->setIsAuthenticated(false);
     }
 
     public function isAuthenticated(): bool
     {
         return $this->isAuthenticated;
+    }
+
+    private function setIsAuthenticated(bool $status)
+    {
+        $this->isAuthenticated = $status;
     }
 }
