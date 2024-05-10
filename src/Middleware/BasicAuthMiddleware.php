@@ -5,28 +5,23 @@ namespace VoyagerInc\BasicAuth\Middleware;
 use Closure;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Http\Request;
+use VoyagerInc\BasicAuth\Services\Contracts\BasicAuthServiceInterface;
 
 class BasicAuthMiddleware
 {
-    private $username;
-    private $password;
-    private $errorMessage;
-    private $headers;
+    private $basicAuthService;
 
-    public function __construct()
+    public function __construct(BasicAuthServiceInterface $basicAuthService)
     {
-        $this->username = config('basic_auth.username');
-        $this->password = config('basic_auth.password');
-        $this->errorMessage = config('basic_auth.errorMessage');
-
-        $this->headers = [
-            header('WWW-Authenticate: Basic realm="Sample Private Page"'),
-            header('Content-Type: text/plain; charset=utf-8')
-        ];
+        $this->basicAuthService = $basicAuthService;
     }
 
     public function handle(Request $request, Closure $next)
     {
+        if (!$this->basicAuthService->getStatusEnabled()) {
+            return $next($request);
+        }
+
         if (
             app()->environment('staging')
             || app()->environment('develop')
@@ -35,11 +30,14 @@ class BasicAuthMiddleware
             $username = $request->getUser();
             $password = $request->getPassword();
 
-            if ($username === $this->username && $password === $this->password) {
+            if (
+                $username === $this->basicAuthService->getUserName()
+                && $password === $this->basicAuthService->getPassword()
+            ) {
                 return $next($request);
             }
 
-            abort(HttpResponse::HTTP_UNAUTHORIZED, $this->errorMessage, $this->headers);
+            abort(HttpResponse::HTTP_UNAUTHORIZED, $this->basicAuthService->getErrorMessage(), $this->basicAuthService->getHeaders());
         }
 
         return $next($request);

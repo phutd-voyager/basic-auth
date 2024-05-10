@@ -6,7 +6,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function register()
     {
-        // 
+        $this->registerServices();
     }
 
     public function boot()
@@ -21,5 +21,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerMiddleware()
     {
         $this->app['router']->aliasMiddleware('basic-auth', Middleware\BasicAuthMiddleware::class);
+    }
+
+    protected function registerServices()
+    {
+        $this->app->bind(Services\Contracts\BasicAuthServiceInterface::class, Services\BasicAuthService::class);
     }
 }
