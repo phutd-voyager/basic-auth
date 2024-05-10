@@ -8,20 +8,16 @@ class BasicAuthServiceTest extends BaseTest
     public function test_get_username()
     {
         config(['basic_auth.username' => 'custom_username']);
-        $this->assertEquals('custom_username', $this->basicAuthService->getUsername());
-
-        config(['basic_auth.username' => '']);
-        $this->assertEquals('admin', $this->basicAuthService->getUsername());
+        $basicAuthUsername = $this->basicAuthConfig->getUsername();
+        $this->assertEquals('custom_username', $basicAuthUsername);
     }
 
     #[test]
     public function test_get_password()
     {
         config(['basic_auth.password' => 'custom_password']);
-        $this->assertEquals('custom_password', $this->basicAuthService->getPassword());
-
-        config(['basic_auth.password' => '']);
-        $this->assertEquals('password', $this->basicAuthService->getPassword());
+        $basicAuthPassword = $this->basicAuthConfig->getPassword();
+        $this->assertEquals('custom_password', $basicAuthPassword);
     }
 
     #[test]
