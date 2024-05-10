@@ -10,7 +10,7 @@ class BaseTest extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        $this->basicAuthService = new \Services\Contracts\BasicAuthServiceInterface();
+        $this->basicAuthService = new \VoyagerInc\BasicAuth\Services\BasicAuthService();
     }
 
     protected function getPackageProviders($app)
