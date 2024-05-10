@@ -8,27 +8,32 @@ class BasicAuthService implements Contracts\BasicAuthServiceInterface
 
     public function getStatusEnabled(): bool
     {
-        return config('basic_auth.enabled');
+        return config('basic_auth.enabled', true);
     }
 
     public function getUsername(): string
     {
-        return config('basic_auth.username');
+        return config('basic_auth.username', 'admin');
     }
 
     public function getPassword(): string
     {
-        return config('basic_auth.password');
+        return config('basic_auth.password', 'password');
     }
 
     public function getErrorMessage(): string
     {
-        return config('basic_auth.error_message');
+        return config('basic_auth.error_message', 'Unauthorized');
     }
 
     public function getHeaders(): array
     {
-        return config('basic_auth.headers');
+        $headerDefault = [
+            'WWW-Authenticate' => 'Basic realm="Sample Private Page"',
+            'Content-Type' => 'text/plain; charset=utf-8'
+        ];
+
+        return config('basic_auth.headers', $headerDefault);
     }
 
     public function authenticate(string $username, string $password): void
