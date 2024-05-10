@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\BasicAuth\Middleware;
+namespace VoyagerInc\BasicAuth\Middleware;
 
 use Closure;
 use Illuminate\Http\Response as HttpResponse;

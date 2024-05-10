@@ -1,6 +1,6 @@
 <?php
 
-namespace Voyager\BasicAuth;
+namespace VoyagerInc\BasicAuth;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
