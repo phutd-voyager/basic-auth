@@ -5,20 +5,23 @@ namespace VoyagerInc\BasicAuth\Middleware;
 use Closure;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Http\Request;
+use VoyagerInc\BasicAuth\Services\Contracts\BasicAuthConfigInterface;
 use VoyagerInc\BasicAuth\Services\Contracts\BasicAuthServiceInterface;
 
 class BasicAuthMiddleware
 {
     private $basicAuthService;
+    private $basicAuthConfig;
 
-    public function __construct(BasicAuthServiceInterface $basicAuthService)
+    public function __construct(BasicAuthServiceInterface $basicAuthService, BasicAuthConfigInterface $basicAuthConfig)
     {
         $this->basicAuthService = $basicAuthService;
+        $this->basicAuthConfig = $basicAuthConfig;
     }
 
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->basicAuthService->getStatusEnabled()) {
+        if (!$this->basicAuthConfig->isEnabled()) {
             return $next($request);
         }
 

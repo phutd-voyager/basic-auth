@@ -26,5 +26,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerServices()
     {
         $this->app->bind(Services\Contracts\BasicAuthServiceInterface::class, Services\BasicAuthService::class);
+        $this->app->bind(Services\Contracts\BasicAuthConfigInterface::class, Services\BasicAuthConfig::class);
     }
 }
