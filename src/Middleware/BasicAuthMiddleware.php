@@ -30,10 +30,11 @@ class BasicAuthMiddleware
             $username = $request->getUser();
             $password = $request->getPassword();
 
-            if (
-                $username === $this->basicAuthService->getUserName()
-                && $password === $this->basicAuthService->getPassword()
-            ) {
+            if (!empty($username) && !empty($password)) {
+                $this->basicAuthService->authenticate($username, $password);
+            }
+
+            if ($this->basicAuthService->isAuthenticated()) {
                 return $next($request);
             }
 

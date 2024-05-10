@@ -13,4 +13,8 @@ interface BasicAuthServiceInterface
     public function getErrorMessage(): string;
 
     public function getHeaders(): array;
+
+    public function authenticate(string $username, string $password): void;
+
+    public function isAuthenticated(): bool;
 }
